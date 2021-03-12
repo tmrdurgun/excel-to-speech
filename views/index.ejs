@@ -15,6 +15,12 @@
 
         <div class="row">
           <div class="col page-body">
+            <div class="play-bar-container">
+              <audio controls id="playBar" class="d-none">
+                <source src="../speech.mp3" type="audio/mp3">
+              </audio>
+            </div>
+
             <div class="file-list-container">
               <%if (files.length > 0) { %>
         
@@ -24,9 +30,7 @@
                       <div class="d-flex">
                           <span class="file-name" style="text-align:left"><%= files[i].name %></span>
                           
-                          <!-- <audio controls>
-                            <source src="../speech.mp3" type="audio/mp3">
-                          </audio> -->
+                          
                       </div>
         
                       <%if (files[i].sheets.length > 0) { %>

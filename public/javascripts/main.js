@@ -2,6 +2,7 @@ window.onload = () => {
     console.log('win loaded');
 
     const playBtns = document.querySelectorAll('.fa-play');
+    const playbar = document.getElementById('playBar');
 
     [].forEach.call(playBtns, (el, i) => {
         
@@ -19,6 +20,10 @@ window.onload = () => {
         
             const res = await rawResponse.json();
 
+            if(res.success) {
+                playbar.classList.remove('d-none'); 
+                playbar.classList.add('d-block');
+            }
             console.log('res: ', res);
         });
     })
