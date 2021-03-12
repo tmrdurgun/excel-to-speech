@@ -2,12 +2,8 @@ var express = require('express');
 var router = express.Router();
 const filesFolder = './files/';
 const fs = require('fs').promises;
-const util = require('util');
-
+const cryptoRandomString = require('crypto-random-string');
 const readXlsxFile = require('read-excel-file/node');
-
-// File path.
-
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -26,19 +22,34 @@ router.get('/', async (req, res, next) => {
       });
     } */
 
-    files.push({name: file, sheets});
+    files.push({id: cryptoRandomString({length: 10}), name: file, sheets});
   });
 
   console.log('files: ', files);
+
+  const convert = async (fileId) => {
+    console.log('convert file', fileId);
+  }
   
   setTimeout(() => {
     res.render('index', {
       page: 'Home',
       title: 'Welcom to excel to speech App', 
       desc: 'Upload files and play audio from the file list',
-      files: files 
+      files: files,
+      clickHandler: convert
     });
   }, 1500);
+});
+
+router.post('/convert', async (req, res, next) => {
+
+  console.log('body: ', req.body);
+
+  res.send({
+    message: 'teşekkürler'
+  })
+
 });
 
 module.exports = router;

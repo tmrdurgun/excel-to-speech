@@ -20,7 +20,7 @@
         
               <ul class="list-group">
                   <% for (var i = 0; i < files.length; i++) { %>
-                  <li class="list-group-item root-file">
+                  <li class="list-group-item root-file" id="<%= files[i].id %>">
                       <div class="d-flex">
                           <span class="file-name" style="text-align:left"><%= files[i].name %></span>
                           
@@ -36,7 +36,7 @@
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
                                     <span class="file-name sheet-name" style="text-align:left"><%= files[i].sheets[k].name %></span>
-                                    <span class="play-btn cursor-pointer"><i class="fa fa-play" aria-hidden="true"></i></span>
+                                    <button class="play-btn cursor-pointer"><i class="fa fa-play" aria-hidden="true" data-sheet-name="<%= files[i].sheets[k].name %>"></i></button>
                                 </div>
                             </li>
                             <% } %>
