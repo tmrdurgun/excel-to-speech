@@ -1,9 +1,31 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: aquamarine;
+  background-color: #a5f5c3;
 }
 
 a {
   color: #00B7FF;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.file-name{
+  width: 33%;
+  margin: 8px;
+
+}
+
+.play-btn{
+  margin-left: 15px;
+}
+
+.page-desc{
+  font-size: 16px;
+}
+
+.root-file {
+  margin-bottom: 15px;
 }
