@@ -105,3 +105,6 @@ dist
 
 .history
 .mp3
+
+# files uploaded
+files/*

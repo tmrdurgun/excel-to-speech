@@ -1,32 +1,41 @@
-//Load HTTP module
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const googleTTS = require('google-tts-api');
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-const hostname = '127.0.0.1';
-const port = 3003;
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-//Create HTTP server and listen on port 3000 for requests
-const server = http.createServer(async (req, res) => {
-    res.writeHead(200, { 'content-type': 'text/html' });
-    fs.createReadStream('index.html').pipe(res);
+var app = express();
 
-    const getAllAudioBase64 = await googleTTS.getAllAudioBase64(`Samsun'da sokak ortasında bir kadına öldüresiye şiddet, sosyal medyada infial uyandırdı! Eski eşi tarafından öldüresiye dövülen kadın hastaneye kaldırıldı. Adalet Bakanı Gül, failin gözaltına alındığını açıkladı. Samsun Cumhuriyet Başsavcılığı ise soruşturmanın titizlikle yürütüldüğünü duyurdu. Aile ve Sosyal Politikalar Bakanı Zehra Zümrüt Selçuk, davaya müdahil olacaklarını açıkladı. İletişim Başkanı Fahrettin Altun da vahşetin hesabının sorulacağını bildirdi. 3 yıl önce boşandığı eski eşini 5 yaşındaki kızlarının gözü önünde tekme tokat döven İbrahim Zarap (27),emniyetteki işlemlerinin ardından sevk edildiği adliyede 'adam öldürmeye teşebbüs' suçundan tutuklandı. Saldırgan Zarap, polisteki ifadesinde "Kızımı teslim ederken bana, 'Sana bir daha kızı göstermeyeceğim' gibi şeyler söyledi. Bir anda gözüm döndü ve sinir krizi geçirmişim. O yüzden böyle yaptım. Olaydan sonra çevredekiler beni darp etti. Eğer kimlikleri tespit edilebilirse hepsinden şikayetçi olacağım... Görüntüleri izledim, kendimi tanıyamadım" dedi. Samsun Cumhuriyet Başsavcılığı ise, darbedilen kadın ile çocuğunun koruma altına alındığını açıkladı`, 
-    {
-        lang: 'tr',
-        slow: false,
-        host: 'https://translate.google.com',
-        splitPunct: ',.?',
-    });
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-    const dest = path.resolve(__dirname, `decoded.mp3`);
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-    getAllAudioBase64.forEach((item, i) => fs.appendFileSync(dest, Buffer.from(item.base64.replace('data:audio/mp3; codecs=opus;base64,', ''), 'base64')));
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-//listen for request on port 3000, and as a callback function have the port listened on logged
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
+
+module.exports = app;
