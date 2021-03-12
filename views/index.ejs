@@ -14,8 +14,23 @@
           <% for (var i = 0; i < files.length; i++) { %>
           <li class="timeline-yellow">
               <div class="timeline-time">
-                  <span class="date" style="text-align:left"><%= files[i] %></span>
+                  <span class="date" style="text-align:left"><%= files[i].name %></span>
               </div>
+
+              <%if (files[i].sheets.length > 0) { %>
+
+                <ul class="timeline">
+                    <% for (var k = 0; k < files[i].sheets.length; k++) { %>
+                    <li class="timeline-yellow">
+                        <div class="timeline-time">
+                            <span class="date" style="text-align:left"><%= files[i].sheets[k].name %></span>
+                        </div>
+                    </li>
+                    <% } %>
+                </ul>
+          
+                <% } %>
+
           </li>
           <% } %>
       </ul>
