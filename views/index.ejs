@@ -5,7 +5,23 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Hoşgeldiniz <%= title %></p>
+    <p> <%= desc %></p>
+
+    <div class="file-list-container">
+      <%if (files.length > 0) { %>
+
+      <ul class="timeline">
+          <% for (var i = 0; i < files.length; i++) { %>
+          <li class="timeline-yellow">
+              <div class="timeline-time">
+                  <span class="date" style="text-align:left"><%= files[i] %></span>
+              </div>
+          </li>
+          <% } %>
+      </ul>
+
+      <% } %>
+    </div>
 
     <% include templates/script %>
   </body>
